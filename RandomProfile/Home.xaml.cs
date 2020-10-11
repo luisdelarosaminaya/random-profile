@@ -10,7 +10,7 @@ namespace RandomProfileApp
 {    
     public partial class Home : Window
     {
-        public Profile _profile = default;
+        private Profile _profile = default;
         
         public Home()
         {
