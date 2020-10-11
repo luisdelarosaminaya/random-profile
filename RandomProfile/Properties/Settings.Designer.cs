@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RandomProfile.Properties
+namespace RandomProfileApp.Properties
 {
 
 
