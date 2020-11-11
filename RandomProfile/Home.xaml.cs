@@ -24,8 +24,11 @@ namespace RandomProfileApp
         private void GenerateProfile()
         {
             try
-            {
-                RandomUserApi.FromJson(API.GET, _profile);                
+            {                
+                API.GetData((sender, e) => {
+                    RandomUserApi.FromJson(e.Result, _profile);
+                });
+
                 scrollViewer.ScrollToTop();
             }
             catch (Exception e)

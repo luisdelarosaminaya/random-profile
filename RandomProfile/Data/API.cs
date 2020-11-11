@@ -8,6 +8,8 @@ namespace RandomProfileApp.Data
 {
     static class API
     {
+        private static readonly object _downloadStringLock = new object();
+
         private static WebClient _client;
         private static string _api;
 
@@ -15,30 +17,35 @@ namespace RandomProfileApp.Data
         {
             using (ResXResourceSet resxSet = new ResXResourceSet("Resources.resx"))
             {
-                _api = resxSet.GetString("API");
-                _client = new WebClient();
-            }
-        }
-        public static string GET
-        {
-            get
-            {
                 try
                 {
-                    return _client.DownloadString(_api);
+                    _api = resxSet.GetString("API");
+                    _client = new WebClient();
                 }
-                catch (ArgumentNullException)
+                catch (Exception)
                 {
                     throw;
-                }
-                catch (WebException)
-                {
-                    throw;
-                }
-                catch (NotSupportedException)
-                {
-                    throw;
-                }
+                }                
+            }
+        }
+        public static void GetData(DownloadStringCompletedEventHandler downloadStringCompleted)
+        {
+            try
+            {
+                _client.DownloadStringCompleted += downloadStringCompleted;
+                _client.DownloadStringAsync(new Uri(_api), _downloadStringLock);                
+            }
+            catch (ArgumentNullException)
+            {
+                throw;
+            }
+            catch (WebException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }
